@@ -4,22 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hyperion Dev Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Hyperion Dev Studio</h1>
-        <p>Innovating the future of mobile experiences</p>
+    <header class="hero">
+        <nav class="navbar">
+            <div class="brand">HDS</div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="hero-content">
+            <h1>Hyperion Dev Studio</h1>
+            <p>Innovating the future of mobile experiences</p>
+            <a href="#products" class="btn">Explore</a>
+        </div>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#products">Products</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-
+    <main>
     <section id="about" class="content-section">
         <h2>About Us</h2>
         <p>Hyperion Dev Studio crafts intuitive mobile applications that prioritize user experience and cutting-edge design. Our passion for technology drives us to explore new ideas and deliver meaningful digital products.</p>
@@ -34,6 +41,8 @@
         <h2>Contact</h2>
         <p>For inquiries or collaborations, reach us at <a href="mailto:info@hyperiondevstudio.com">info@hyperiondevstudio.com</a>.</p>
     </section>
+
+    </main>
 
     <footer>
         <p>&copy; <span id="year"></span> Hyperion Dev Studio. All rights reserved.</p>
