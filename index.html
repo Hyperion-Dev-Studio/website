@@ -5,18 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hyperion Dev Studio</title>
   <style>
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --header-bg: #111827;
+      --accent: #6366f1;
+    }
+
+    body.dark {
+      --bg-color: #1a1a2e;
+      --text-color: #f3f4f6;
+      --header-bg: #0f172a;
+      --accent: #3b82f6;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f4f4;
-      color: #333;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
     }
 
     header {
-      background-color: #111827;
+      background-color: var(--header-bg);
       color: white;
       padding: 20px;
       text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
     header h1 {
@@ -32,6 +50,24 @@
       color: #a5b4fc;
       margin: 0 10px;
       text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .toggle-theme {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
     }
 
     .hero {
@@ -43,17 +79,29 @@
 
     .hero h2 {
       font-size: 2.5em;
+      opacity: 0;
+      transform: translateY(-20px);
     }
 
     .hero p {
       font-size: 1.2em;
       margin-top: 10px;
+      opacity: 0;
+      transform: translateY(20px);
     }
 
     .section {
       padding: 40px 20px;
       max-width: 900px;
       margin: auto;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s ease-out;
+    }
+
+    .reveal {
+      opacity: 1 !important;
+      transform: translateY(0px) !important;
     }
 
     .app-preview {
@@ -91,7 +139,7 @@
     footer {
       text-align: center;
       padding: 20px;
-      background-color: #1f2937;
+      background-color: var(--header-bg);
       color: #ccc;
       font-size: 0.9em;
     }
@@ -101,6 +149,7 @@
 
   <header>
     <h1>Hyperion Dev Studio</h1>
+    <button class="toggle-theme">🌙 Toggle Theme</button>
     <nav>
       <a href="#about">About</a>
       <a href="#logiquiz">Logiquiz</a>
@@ -109,8 +158,8 @@
   </header>
 
   <section class="hero">
-    <h2>Building Smart Mobile Experiences</h2>
-    <p>Innovative apps that solve real-world problems. One line of code at a time.</p>
+    <h2 id="hero-title">Building Smart Mobile Experiences</h2>
+    <p id="hero-sub">Innovative apps that solve real-world problems. One line of code at a time.</p>
   </section>
 
   <section id="about" class="section">
@@ -118,8 +167,6 @@
     <p>
       Hyperion Dev Studio is a boutique mobile application development company
       dedicated to crafting intuitive, high-performance apps for Android and iOS.
-      Our mission is to blend technology with creativity to make life easier and
-      more fun for our users.
     </p>
   </section>
 
@@ -130,8 +177,6 @@
         <p>
           Logiquiz is our flagship mobile game currently in development. It blends
           logic puzzles and interactive learning to create a fun, brain-teasing experience.
-          Designed for thinkers of all ages, Logiquiz will challenge your mind while
-          keeping you entertained.
         </p>
       </div>
       <div class="app-image">
@@ -151,5 +196,49 @@
     &copy; 2025 Hyperion Dev Studio. All rights reserved.
   </footer>
 
+  <script>
+    // Smooth scroll
+    document.querySelectorAll("nav a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute("href"));
+        target.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    // Hero animation on load
+    window.addEventListener("load", () => {
+      const title = document.getElementById("hero-title");
+      const sub = document.getElementById("hero-sub");
+      setTimeout(() => {
+        title.style.opacity = 1;
+        title.style.transform = "translateY(0)";
+      }, 300);
+      setTimeout(() => {
+        sub.style.opacity = 1;
+        sub.style.transform = "translateY(0)";
+      }, 600);
+    });
+
+    // Scroll reveal effect
+    const sections = document.querySelectorAll(".section");
+    window.addEventListener("scroll", () => {
+      sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          sec.classList.add("reveal");
+        }
+      });
+    });
+
+    // Toggle dark mode
+    const toggleBtn = document.querySelector(".toggle-theme");
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      toggleBtn.textContent = document.body.classList.contains("dark") ? "☀️ Light Mode" : "🌙 Dark Mode";
+    });
+  </script>
+
 </body>
 </html>
+
