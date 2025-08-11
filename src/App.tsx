@@ -39,11 +39,11 @@ interface CardProps { children: ReactNode; className?: string }
 function Card({ children, className = "" }: CardProps) {
   return <div className={`card ${className}`}>{children}</div>;
 }
-interface SimpleProps { children: ReactNode }
-function CardHeader({ children }: SimpleProps) { return <div className="card-header">{children}</div>; }
-function CardTitle({ children }: SimpleProps) { return <div className="card-title">{children}</div>; }
-function CardDescription({ children }: SimpleProps) { return <div className="card-description">{children}</div>; }
-function CardContent({ children }: SimpleProps) { return <div className="card-content">{children}</div>; }
+interface SimpleProps { children: ReactNode; className?: string }
+function CardHeader({ children, className = "" }: SimpleProps) { return <div className={`card-header ${className}`}>{children}</div>; }
+function CardTitle({ children, className = "" }: SimpleProps) { return <div className={`card-title ${className}`}>{children}</div>; }
+function CardDescription({ children, className = "" }: SimpleProps) { return <div className={`card-description ${className}`}>{children}</div>; }
+function CardContent({ children, className = "" }: SimpleProps) { return <div className={`card-content ${className}`}>{children}</div>; }
 
 interface BadgeProps { children: ReactNode; variant?: "primary" | "secondary"; className?: string }
 function Badge({ children, variant = "primary", className = "" }: BadgeProps) {
