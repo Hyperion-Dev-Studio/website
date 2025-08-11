@@ -50,6 +50,13 @@ function Badge({ children, variant = "primary", className = "" }: BadgeProps) {
   return <span className={`badge badge-${variant} ${className}`}>{children}</span>;
 }
 
+// Form inputs
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & { className?: string };
+function Input(props: InputProps) { return <input {...props} className={`input ${props.className || ""}`} />; }
+
+export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & { className?: string };
+function Textarea(props: TextareaProps) { return <textarea {...props} className={`textarea ${props.className || ""}`} />; }
+
 // ----------------------------
 // Data
 // ----------------------------
