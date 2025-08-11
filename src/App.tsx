@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import type { ReactNode } from "react";
 import { Sparkles, Settings, GraduationCap, BarChart2, Trophy } from "lucide-react";
 
 // Phone Mockup — reproduces provided screenshot closely
