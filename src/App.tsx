@@ -103,6 +103,27 @@ function PhoneMock() {
 }
 
 // ----------------------------
+// Data
+// ----------------------------
+const nav: { label: string; href: string }[] = [
+  { label: "Home", href: "#home" },
+  { label: "Our Apps", href: "#apps" },
+  { label: "Contact", href: "#contact" },
+];
+
+const stacks: string[] = [
+  "React Native",
+  "Swift",
+  "Kotlin",
+  "TypeScript",
+  "GraphQL",
+  "Firebase",
+  "Supabase",
+  "AWS",
+  "Vercel",
+];
+
+// ----------------------------
 // Page
 // ----------------------------
 export default function HyperionDevStudio() {
@@ -117,7 +138,7 @@ export default function HyperionDevStudio() {
             <span className="brand-text">Hyperion <span className="muted">Dev Studio</span></span>
           </a>
           <nav className="nav-links">
-            {nav.map((n) => (
+            {nav.map((n: { label: string; href: string }) => (
               <a key={n.label} href={n.href} className="nav-link">{n.label}</a>
             ))}
           </nav>
@@ -141,7 +162,7 @@ export default function HyperionDevStudio() {
               <Button href="#apps" variant="secondary" size="lg" className="rounded-xl">See our apps</Button>
             </div>
             <div className="chip-row">
-              {stacks.map((s) => (
+              {stacks.map((s: string) => (
                 <div key={s} className="chip">{s}</div>
               ))}
             </div>
