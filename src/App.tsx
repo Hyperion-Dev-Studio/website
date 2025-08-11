@@ -1,20 +1,79 @@
 import { motion } from "framer-motion";
-import { Sparkles, Settings, GraduationCap, BarChart2, Trophy } from "lucide-react";
+import type { ReactNode, MouseEventHandler } from "react";
+import {
+  ArrowRight,
+  Mail,
+  Github,
+  Linkedin,
+  Sparkles,
+  Settings,
+  GraduationCap,
+  BarChart2,
+  Trophy,
+} from "lucide-react";
 
-// Phone Mockup — reproduces provided screenshot closely
+// ----------------------------
+// UI primitives (typed, no Tailwind)
+// ----------------------------
+
+type ButtonVariant = "solid" | "secondary";
+type ButtonSize = "sm" | "md" | "lg";
+
+interface ButtonProps {
+  children: ReactNode;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
+  className?: string;
+}
+function Button({ children, variant = "solid", size = "md", href, type, onClick, className = "" }: ButtonProps) {
+  const Comp = (href ? "a" : "button") as any;
+  return (
+    <Comp href={href} type={type} onClick={onClick} className={`btn btn-${variant} btn-${size} ${className}`}>
+      {children}
+    </Comp>
+  );
+}
+
+interface CardProps { children: ReactNode; className?: string }
+function Card({ children, className = "" }: CardProps) { return <div className={`card ${className}`}>{children}</div>; }
+interface SimpleProps { children: ReactNode; className?: string }
+function CardHeader({ children, className = "" }: SimpleProps) { return <div className={`card-header ${className}`}>{children}</div>; }
+function CardTitle({ children, className = "" }: SimpleProps) { return <div className={`card-title ${className}`}>{children}</div>; }
+function CardDescription({ children, className = "" }: SimpleProps) { return <div className={`card-description ${className}`}>{children}</div>; }
+function CardContent({ children, className = "" }: SimpleProps) { return <div className={`card-content ${className}`}>{children}</div>; }
+
+interface BadgeProps { children: ReactNode; variant?: "primary" | "secondary"; className?: string }
+function Badge({ children, variant = "primary", className = "" }: BadgeProps) {
+  return <span className={`badge badge-${variant} ${className}`}>{children}</span>;
+}
+
+// ----------------------------
+// Data
+// ----------------------------
+const nav = [
+  { label: "Home", href: "#home" },
+  { label: "Our Apps", href: "#apps" },
+  { label: "Contact", href: "#contact" },
+];
+
+const stacks = ["React Native", "Swift", "Kotlin", "TypeScript", "GraphQL", "Firebase", "Supabase", "AWS", "Vercel"];
+
+// ----------------------------
+// Phone mock — matches your screenshot
+// ----------------------------
 function PhoneMock() {
   return (
     <div className="phone-wrap">
       <div className="phone-body">
-        {/* status notch */}
         <div className="phone-notch" />
-
         {/* App bar */}
         <div className="appbar">
           <div className="title" title="CertQuiz – CPIM & CSCP Practice">CertQuiz – CPIM & CSCP Prac…</div>
           <button className="icon-btn" aria-label="settings"><Settings size={18} /></button>
         </div>
-
         {/* Hearts */}
         <div className="hearts" aria-label="lives">
           <span className="heart full">♥</span>
@@ -23,21 +82,18 @@ function PhoneMock() {
           <span className="heart full">♥</span>
           <span className="heart empty">♡</span>
         </div>
-
         {/* Menu pills */}
         <div className="pill-list">
           {['CPIM Training','CSCP Training','CSCT Training','CLTD Training'].map((label) => (
             <button key={label} className="pill-btn">{label}</button>
           ))}
         </div>
-
         {/* Ad banner */}
         <div className="ad-banner">
           <div className="ad-label">Test Ad</div>
           <div className="ad-body">This is a 468x60 test ad.</div>
           <div className="ad-dot" aria-hidden />
         </div>
-
         {/* Bottom nav */}
         <nav className="tabbar" aria-label="bottom navigation">
           <a className="tab-item active">
@@ -58,56 +114,252 @@ function PhoneMock() {
   );
 }
 
+// ----------------------------
+// Page
+// ----------------------------
 export default function HyperionDevStudio() {
   return (
-    <div className="site">
+    <div className="site" id="home">
       <StyleTag />
+
+      {/* Navbar */}
       <header className="nav">
-        <div className="nav-inner">
-          <span className="brand-icon"><Sparkles size={18} /></span>
-          <span className="brand-text">Hyperion Dev Studio</span>
+        <div className="container nav-inner">
+          <a href="#home" className="brand">
+            <span className="brand-icon"><Sparkles size={18} /></span>
+            <span className="brand-text">Hyperion <span className="muted">Dev Studio</span></span>
+          </a>
+          <nav className="nav-links">
+            {nav.map((n) => (
+              <a key={n.label} href={n.href} className="nav-link">{n.label}</a>
+            ))}
+          </nav>
+          <div className="nav-cta">
+            <Button href="#contact" className="rounded-xl">Get in touch</Button>
+          </div>
         </div>
       </header>
-      <section className="section center">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-          <PhoneMock />
-        </motion.div>
+
+      {/* Hero */}
+      <section className="section">
+        <div className="container grid-2 hero">
+          <div>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+              <Badge>Building premium mobile experiences</Badge>
+              <h1 className="h1">Modern apps. <span className="grad-text">Elegant experiences.</span></h1>
+              <p className="lead">Hyperion Dev Studio crafts polished, performant mobile applications for teams who care about detail. Our flagship apps blend logic, polish, and delightful micro-interactions.</p>
+              <div className="btn-row">
+                <Button href="#contact" size="lg" className="rounded-xl">
+                  <span className="icon-gap">Start a project <ArrowRight size={16} /></span>
+                </Button>
+                <Button href="#apps" variant="secondary" size="lg" className="rounded-xl">See our apps</Button>
+              </div>
+              <div className="chip-row">
+                {stacks.map((s) => (
+                  <div key={s} className="chip">{s}</div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }}>
+            <PhoneMock />
+          </motion.div>
+        </div>
       </section>
+
+      {/* Our Apps */}
+      <section id="apps" className="section">
+        <div className="container">
+          <div className="grid-2 v-center gap-lg">
+            <div>
+              <Badge>Flagship App</Badge>
+              <h2 className="h2 mt">Logiquiz — logic that plays beautifully</h2>
+              <p className="muted-p">Logiquiz trains pattern recognition, deduction, and creative reasoning through bite-sized challenges. Designed for focus, built for flow.</p>
+              <ul className="checklist">
+                {[
+                  "Daily challenges and seasonal leagues",
+                  "Curated packs from educators and puzzle designers",
+                  "Accessible design with rich haptics and soundscapes",
+                  "Offline-first play with optional cloud sync",
+                ].map((li, i) => (
+                  <li key={i}>• {li}</li>
+                ))}
+              </ul>
+              <div className="btn-row">
+                <Button className="rounded-xl">Join the waitlist</Button>
+                <Button variant="secondary" href="#contact" className="rounded-xl">Partner with us</Button>
+                <Badge variant="secondary">iOS • Android • Tablet</Badge>
+              </div>
+            </div>
+            <div className="center">
+              <PhoneMock />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="section">
+        <div className="container">
+          <div className="grid-2 gap-lg">
+            <div>
+              <h2 className="h2">Let’s build something exceptional</h2>
+              <p className="muted-p">Tell us about your product, timeline, and budget. We’ll get back within one business day.</p>
+              <div className="contact-list">
+                <div className="contact-item"><Mail size={16} /> hyperion.dev.studio@gmail.com</div>
+                <div className="contact-item"><Github size={16} /> <a href="https://github.com/Hyperion-Dev-Studio" target="_blank" rel="noreferrer">github.com/Hyperion-Dev-Studio</a></div>
+                <div className="contact-item"><Linkedin size={16} /> linkedin.com/company/hyperion-dev</div>
+              </div>
+            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="card-title-text">Project inquiry</CardTitle>
+                <CardDescription>Give us a few details and we’ll follow up with a short plan and estimate.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const f = e.currentTarget.elements as any;
+                    const name = f.namedItem("name").value;
+                    const email = f.namedItem("email").value;
+                    const message = f.namedItem("message").value;
+                    const body = encodeURIComponent(`New project inquiry
+Name: ${name}
+Email: ${email}
+Message: ${message}`);
+                    window.location.href = `mailto:hyperion.dev.studio@gmail.com?subject=Project%20Inquiry&body=${body}`;
+                  }}
+                  className="form-col"
+                >
+                  <Input name="name" placeholder="Your name" required />
+                  <Input name="email" type="email" placeholder="Email" required />
+                  <Textarea name="message" placeholder="What are you building?" required />
+                  <Button type="submit" className="rounded-xl icon-gap">Send inquiry</Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="container footer-inner">
+          <div className="brand">
+            <span className="brand-icon"><Sparkles size={16} /></span>
+            <span className="brand-text">Hyperion Dev Studio</span>
+          </div>
+          <p className="copyright">© {new Date().getFullYear()} Hyperion Dev Studio. All rights reserved.</p>
+          <div className="footer-links">
+            <a href="#apps">Our Apps</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
 
+// ----------------------------
+// Styles (main color #3080E5)
+// ----------------------------
 function StyleTag() {
   return (
     <style>{`
-:root{ --main:#3080E5; --main-2:#1e5fb4; }
-.site { background: linear-gradient(180deg,#5b7483,#475f6c); min-height: 100vh; color: white; }
-.nav { padding: 1rem; background: rgba(255,255,255,0.08); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,.15); }
-.nav-inner { display: flex; align-items: center; gap: .5rem; }
-.brand-icon { background: linear-gradient(135deg,var(--main),var(--main-2)); border-radius: 12px; padding: .3rem; color: white; display: inline-flex; }
-.brand-text { font-weight: 700; letter-spacing: .2px; }
-.section.center { display: grid; place-items: center; padding: 2rem 1rem; }
+:root{ --main:#3080E5; --main-2:#1e5fb4; --text:#0f172a; --border-soft:rgba(255,255,255,.2); }
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;}
+.site { position:relative; min-height:100vh; color: var(--text); background:
+  radial-gradient(60% 60% at 70% 10%, rgba(48,128,229,0.14), transparent),
+  radial-gradient(40% 40% at 0% 90%, rgba(48,128,229,0.10), transparent);
+}
+.container{max-width:100%;padding:0 2rem;margin:0 auto}
 
-.phone-wrap { max-width: 320px; width: 100%; aspect-ratio: 9/19.5; border-radius: 36px; border: 1px solid rgba(255,255,255,0.2); padding: 12px; background: linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.1)); box-shadow: 0 10px 30px rgba(0,0,0,.2); backdrop-filter: blur(8px); }
-.phone-body { position: relative; height: 100%; border-radius: 28px; overflow: hidden; background: linear-gradient(180deg, rgba(55,90,110,.85), rgba(55,90,110,.65)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
-.phone-notch { width: 96px; height: 24px; border-radius: 999px; background: rgba(255,255,255,.08); margin: 12px auto 8px; }
-.appbar { height: 44px; display:flex; align-items:center; justify-content: space-between; padding: 0 14px; color: #e8eef2; }
-.title { font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%; }
-.icon-btn { background: transparent; border: 0; color: inherit; display: inline-flex; align-items: center; justify-content: center; }
-.hearts { display:flex; justify-content: center; gap: 8px; margin: 28px 0 16px; }
-.heart { font-size: 28px; line-height: 1; }
-.heart.full { color: #ff4d4d; }
-.heart.empty { color: #ff4d4d; opacity: .6; }
-.pill-list { display: grid; gap: 16px; padding: 0 16px; }
-.pill-btn { width: 100%; padding: 16px 22px; border-radius: 999px; border: 0; background: #0b0b0b; color: #8fb4c3; box-shadow: 0 8px 22px rgba(0,0,0,.35); font-size: 16px; font-weight: 600; text-align: center; }
-.pill-btn:active { transform: translateY(1px); }
-.ad-banner { position: absolute; left: 16px; right: 16px; bottom: 72px; background: #fff; color: #222; border-radius: 10px; box-shadow: 0 8px 22px rgba(0,0,0,.35); padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
-.ad-label { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; }
-.ad-body { flex: 1; font-size: 14px; }
-.ad-dot { width: 16px; height: 16px; border-radius: 50%; background: linear-gradient(135deg,var(--main),var(--main-2)); }
-.tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: rgba(0,0,0,.55); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: space-around; padding: 6px 18px; color: #9fb7c4; border-top-left-radius: 24px; border-top-right-radius: 24px; }
-.tab-item { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; text-decoration: none; color: inherit; opacity: .7; }
-.tab-item.active { opacity: 1; }
+/* Navbar */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.3);backdrop-filter:blur(10px);border-bottom:1px solid var(--border-soft)}
+.nav-inner{height:64px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit}
+.brand-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:14px;background:linear-gradient(135deg,var(--main),var(--main-2));color:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+.brand-text{font-weight:700;letter-spacing:.2px}
+.muted{color:#64748b}
+.nav-links{display:none;gap:1.25rem}
+.nav-link{font-size:.9rem;color:rgba(15,23,42,.8);text-decoration:none}
+.nav-link:hover{color:#0f172a}
+.nav-cta{display:flex;gap:.6rem}
+@media (min-width:768px){.nav-links{display:flex}}
+
+/* Buttons & badges */
+.btn{border:none;border-radius:12px;padding:.6rem 1rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--main),var(--main-2));color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.btn-secondary{background:#fff;color:#111;border:1px solid rgba(0,0,0,.08)}
+.btn-sm{padding:.4rem .7rem;font-size:.85rem}
+.btn-lg{padding:.8rem 1.2rem;font-size:1rem}
+.icon-gap{display:inline-flex;align-items:center;gap:.5rem}
+.badge{display:inline-flex;align-items:center;padding:.35rem .7rem;border-radius:999px;font-size:.8rem;font-weight:700;background:linear-gradient(90deg,var(--main),var(--main-2));color:#fff}
+.badge-secondary{background:rgba(255,255,255,.8);color:#111;border:1px solid rgba(0,0,0,.08)}
+
+/* Sections */
+.section{position:relative;padding:4rem 0}
+.hero{gap:3rem;align-items:center}
+@media (min-width:1024px){.grid-2{display:grid;grid-template-columns:1fr 1fr}.hero{display:grid}}
+
+/* Typography */
+.h1{font-size:clamp(2.2rem,4vw,3.5rem);line-height:1.1;margin:.3rem 0 0}
+.h2{font-size:clamp(1.6rem,2.5vw,2.2rem);margin:0}
+.lead{margin-top:1rem;max-width:46ch;color:#334155}
+.muted-p{margin-top:.5rem;max-width:60ch;color:#475569}
+.grad-text{background:linear-gradient(90deg,var(--main),var(--main-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* Chips */
+.chip-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.chip{border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.6);padding:.35rem .8rem;border-radius:999px;font-size:.8rem}
+
+/* Grid helpers */
+.grid-2{display:grid;grid-template-columns:1fr;gap:2rem}
+.v-center{align-items:center}
+.gap-lg{gap:2.5rem}
+.center{display:grid;place-items:center}
+
+/* Card & form */
+.card{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.6);backdrop-filter:blur(6px);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+.card-header{padding:1.1rem 1.1rem 1rem}
+.card-title{font-weight:700}
+.card-description{color:#475569;margin-top:.35rem}
+.card-content{padding:0 1.1rem 1.1rem}
+.form-col{display:grid;gap:.6rem}
+.input,.textarea{width:100%;border:1px solid rgba(0,0,0,.08);background:#fff;border-radius:12px;padding:.7rem .9rem;font-size:.95rem}
+.textarea{min-height:120px;resize:vertical}
+
+/* Phone mock */
+.phone-wrap{max-width:320px;width:100%;aspect-ratio:9/19.5;border-radius:36px;border:1px solid rgba(255,255,255,.2);padding:12px;background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.1));box-shadow:0 10px 30px rgba(0,0,0,.2);backdrop-filter:blur(8px)}
+.phone-body{position:relative;height:100%;border-radius:28px;overflow:hidden;background:linear-gradient(180deg, rgba(55,90,110,.85), rgba(55,90,110,.65));box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.phone-notch{width:96px;height:24px;border-radius:999px;background:rgba(255,255,255,.08);margin:12px auto 8px}
+.appbar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#e8eef2}
+.title{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80%}
+.icon-btn{background:transparent;border:0;color:inherit;display:inline-flex;align-items:center;justify-content:center}
+.hearts{display:flex;justify-content:center;gap:8px;margin:28px 0 16px}
+.heart{font-size:28px;line-height:1}
+.heart.full{color:#ff4d4d}
+.heart.empty{color:#ff4d4d;opacity:.6}
+.pill-list{display:grid;gap:16px;padding:0 16px}
+.pill-btn{width:100%;padding:16px 22px;border-radius:999px;border:0;background:#0b0b0b;color:#8fb4c3;box-shadow:0 8px 22px rgba(0,0,0,.35);font-size:16px;font-weight:600;text-align:center}
+.pill-btn:active{transform:translateY(1px)}
+.ad-banner{position:absolute;left:16px;right:16px;bottom:72px;background:#fff;color:#222;border-radius:10px;box-shadow:0 8px 22px rgba(0,0,0,.35);padding:10px 14px;display:flex;align-items:center;gap:10px}
+.ad-label{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#333;color:#fff;border-radius:6px;padding:2px 8px;font-size:12px}
+.ad-body{flex:1;font-size:14px}
+.ad-dot{width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--main),var(--main-2))}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:64px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:space-around;padding:6px 18px;color:#9fb7c4;border-top-left-radius:24px;border-top-right-radius:24px}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;text-decoration:none;color:inherit;opacity:.7}
+.tab-item.active{opacity:1}
+
+/* Footer */
+.footer{border-top:1px solid var(--border-soft);padding:2rem 0}
+.footer-inner{display:flex;flex-direction:column;align-items:center;gap:1rem}
+.footer-links{display:flex;gap:1rem}
+.footer a{text-decoration:none;color:inherit}
+.footer a:hover{text-decoration:underline}
+@media (min-width:768px){.footer-inner{flex-direction:row;justify-content:space-between}}
     `}</style>
   );
 }
