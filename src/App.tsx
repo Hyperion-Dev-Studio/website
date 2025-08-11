@@ -265,8 +265,7 @@ export default function HyperionDevStudio() {
 // Styles adjustments
 // ----------------------------
 function StyleTag() {
-  return (
-    <style>{`
+  const css = `
 :root{ --main:#3080E5; --main-2:#1e5fb4; --text:#0f172a; --border-soft:rgba(255,255,255,.2); }
 *{box-sizing:border-box}
 html,body,#root{height:100%}
@@ -275,10 +274,8 @@ body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Ro
   radial-gradient(60% 60% at 70% 10%, rgba(48,128,229,0.14), transparent),
   radial-gradient(40% 40% at 0% 90%, rgba(48,128,229,0.10), transparent);
 }
-/* FULL WIDTH */
 .container{max-width:100%;padding:0 2rem;margin:0 auto}
 
-/* Navbar */
 .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.3);backdrop-filter:blur(10px);border-bottom:1px solid var(--border-soft)}
 .nav-inner{height:64px;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit}
@@ -291,7 +288,6 @@ body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Ro
 .nav-cta{display:flex;gap:.6rem}
 @media (min-width:768px){.nav-links{display:flex}}
 
-/* Buttons & badges */
 .btn{border:none;border-radius:12px;padding:.6rem 1rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--main),var(--main-2));color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.12)}
 .btn-secondary{background:#fff;color:#111;border:1px solid rgba(0,0,0,.08)}
 .btn-sm{padding:.4rem .7rem;font-size:.85rem}
@@ -300,29 +296,24 @@ body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Ro
 .badge{display:inline-flex;align-items:center;padding:.35rem .7rem;border-radius:999px;font-size:.8rem;font-weight:700;background:linear-gradient(90deg,var(--main),var(--main-2));color:#fff}
 .badge-secondary{background:rgba(255,255,255,.8);color:#111;border:1px solid rgba(0,0,0,.08)}
 
-/* Sections */
 .section{position:relative;padding:4rem 0}
 .hero{gap:3rem;align-items:center}
 @media (min-width:1024px){.grid-2{display:grid;grid-template-columns:1fr 1fr}.hero{display:grid}}
 
-/* Typography */
 .h1{font-size:clamp(2.2rem,4vw,3.5rem);line-height:1.1;margin:.3rem 0 0}
 .h2{font-size:clamp(1.6rem,2.5vw,2.2rem);margin:0}
 .lead{margin-top:1rem;max-width:46ch;color:#334155}
 .muted-p{margin-top:.5rem;max-width:60ch;color:#475569}
 .grad-text{background:linear-gradient(90deg,var(--main),var(--main-2));-webkit-background-clip:text;background-clip:text;color:transparent}
 
-/* Chips */
 .chip-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
 .chip{border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.6);padding:.35rem .8rem;border-radius:999px;font-size:.8rem}
 
-/* Grid helpers */
 .grid-2{display:grid;grid-template-columns:1fr;gap:2rem}
 .v-center{align-items:center}
 .gap-lg{gap:2.5rem}
 .center{display:grid;place-items:center}
 
-/* Card & form */
 .card{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.6);backdrop-filter:blur(6px);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
 .card-header{padding:1.1rem 1.1rem 1rem}
 .card-title{font-weight:700}
@@ -332,7 +323,6 @@ body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Ro
 .input,.textarea{width:100%;border:1px solid rgba(0,0,0,.08);background:#fff;border-radius:12px;padding:.7rem .9rem;font-size:.95rem}
 .textarea{min-height:120px;resize:vertical}
 
-/* Phone mock */
 .phone-wrap{max-width:320px;width:100%;aspect-ratio:9/19.5;border-radius:36px;border:1px solid rgba(255,255,255,.2);padding:12px;background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.1));box-shadow:0 10px 30px rgba(0,0,0,.2);backdrop-filter:blur(8px)}
 .phone-body{position:relative;height:100%;border-radius:28px;overflow:hidden;background:linear-gradient(180deg, rgba(55,90,110,.85), rgba(55,90,110,.65));box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
 .phone-notch{width:96px;height:24px;border-radius:999px;background:rgba(255,255,255,.08);margin:12px auto 8px}
@@ -354,17 +344,12 @@ body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Ro
 .tab-item{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;text-decoration:none;color:inherit;opacity:.7}
 .tab-item.active{opacity:1}
 
-/* Footer */
 .footer{border-top:1px solid var(--border-soft);padding:2rem 0}
 .footer-inner{display:flex;flex-direction:column;align-items:center;gap:1rem}
 .footer-links{display:flex;gap:1rem}
 .footer a{text-decoration:none;color:inherit}
 .footer a:hover{text-decoration:underline}
 @media (min-width:768px){.footer-inner{flex-direction:row;justify-content:space-between}}
-    `}</style>
-  );
-}
-/* Keep all existing styles from previous version here */
-    `}</style>
-  );
+  `;
+  return <style>{css}</style>;
 }
