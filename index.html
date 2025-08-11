@@ -35,6 +35,12 @@
     <section id="products" class="content-section">
         <h2>Featured App: Logiquiz</h2>
         <p>Logiquiz is our upcoming puzzle and logic game, built to challenge and entertain. Currently in development, it blends brain teasers with a modern, minimalist interface. Stay tuned for updates and the official release!</p>
+        <button id="join-beta-btn" class="btn">Join the Beta</button>
+        <div id="beta-info" class="beta-info">
+            <p>Join the Google Group, then download the app with the link below</p>
+            <p>Google Groups: <a href="https://groups.google.com/u/4/g/hyperion-dev-studio-testing" target="_blank">https://groups.google.com/u/4/g/hyperion-dev-studio-testing</a></p>
+            <p>Play Store Link: <a href="https://play.google.com/store/apps/details?id=com.hyperiondevstudio.logiquiz" target="_blank">https://play.google.com/store/apps/details?id=com.hyperiondevstudio.logiquiz</a></p>
+        </div>
     </section>
 
     <section id="contact" class="content-section">
@@ -51,6 +57,13 @@
     <script>
         // Set the current year in the footer
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Reveal beta information when the button is clicked
+        const joinBetaBtn = document.getElementById('join-beta-btn');
+        const betaInfo = document.getElementById('beta-info');
+        joinBetaBtn.addEventListener('click', () => {
+            betaInfo.style.display = 'block';
+        });
     </script>
 </body>
 </html>

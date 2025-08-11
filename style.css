@@ -66,13 +66,20 @@ body {
     background: var(--color-secondary);
     color: var(--color-light);
     border-radius: 4px;
+    border: none;
     text-decoration: none;
+    cursor: pointer;
     transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .btn:hover {
     background: #d97706;
     transform: translateY(-2px);
+}
+
+.beta-info {
+    display: none;
+    margin-top: 1rem;
 }
 
 .content-section {
