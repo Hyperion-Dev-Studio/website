@@ -296,7 +296,8 @@ body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Ro
 .badge{display:inline-flex;align-items:center;padding:.35rem .7rem;border-radius:999px;font-size:.8rem;font-weight:700;background:linear-gradient(90deg,var(--main),var(--main-2));color:#fff}
 .badge-secondary{background:rgba(255,255,255,.8);color:#111;border:1px solid rgba(0,0,0,.08)}
 
-.section{position:relative;padding:4rem 0}
+.section{position:relative;padding:4rem 0;padding-left: 0 !important;
+  padding-right: 0 !important;}
 .hero{gap:3rem;align-items:center}
 @media (min-width:1024px){.grid-2{display:grid;grid-template-columns:1fr 1fr}.hero{display:grid}}
 
@@ -309,7 +310,8 @@ body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Ro
 .chip-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
 .chip{border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.6);padding:.35rem .8rem;border-radius:999px;font-size:.8rem}
 
-.grid-2{display:grid;grid-template-columns:1fr;gap:2rem}
+.grid-2{display:grid;grid-template-columns:1fr;gap:2rem;max-width: 100% !important;
+  width: 100% !important;}
 .v-center{align-items:center}
 .gap-lg{gap:2.5rem}
 .center{display:grid;place-items:center}
