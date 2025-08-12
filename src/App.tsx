@@ -5,8 +5,6 @@ import {
   ArrowRight,
   Mail,
   Github,
-  Linkedin,
-  Sparkles,
   Settings,
   GraduationCap,
   BarChart2,
