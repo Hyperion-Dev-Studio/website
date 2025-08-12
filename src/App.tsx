@@ -251,7 +251,6 @@ export default function HyperionDevStudio() {
               <div className="contact-list">
                 <div className="contact-item"><Mail size={16} /> hyperion.dev.studio@gmail.com</div>
                 <div className="contact-item"><Github size={16} /> <a href="https://github.com/Hyperion-Dev-Studio" target="_blank" rel="noreferrer">github.com/Hyperion-Dev-Studio</a></div>
-                <div className="contact-item"><Linkedin size={16} /> linkedin.com/company/hyperion-dev</div>
               </div>
             </div>
             <Card>
@@ -287,7 +286,7 @@ export default function HyperionDevStudio() {
       <footer className="footer">
         <div className="container footer-inner">
           <div className="brand">
-            <span className="brand-icon"><Sparkles size={16} /></span>
+            <img src={logo} alt="Hyperion Dev Studio" className="brand-logo" />
             <span className="brand-text">Hyperion Dev Studio</span>
           </div>
           <p className="copyright">© {new Date().getFullYear()} Hyperion Dev Studio. All rights reserved.</p>
