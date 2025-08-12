@@ -35,6 +35,7 @@ function Button({ children, variant = "solid", size = "md", href, type, onClick,
   );
 }
 
+
 interface CardProps { children: ReactNode; className?: string }
 function Card({ children, className = "" }: CardProps) { return <div className={`card ${className}`}>{children}</div>; }
 interface SimpleProps { children: ReactNode; className?: string }
