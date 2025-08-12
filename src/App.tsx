@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import type { ReactNode, MouseEventHandler } from "react";
 import {
   ArrowRight,
@@ -11,6 +12,7 @@ import {
   BarChart2,
   Trophy,
 } from "lucide-react";
+import logo from "./assets/Hyperion Dev Studio.png";
 
 // ----------------------------
 // UI primitives
@@ -127,6 +129,7 @@ const stacks: string[] = [
 // Page
 // ----------------------------
 export default function HyperionDevStudio() {
+  const [showBeta, setShowBeta] = useState(false);
   return (
     <div className="site" id="home">
       <StyleTag />
@@ -134,7 +137,7 @@ export default function HyperionDevStudio() {
       <header className="nav">
         <div className="container nav-inner">
           <a href="#home" className="brand">
-            <span className="brand-icon"><Sparkles size={18} /></span>
+            <img src={logo} alt="Hyperion Dev Studio" className="brand-logo" />
             <span className="brand-text">Hyperion <span className="muted">Dev Studio</span></span>
           </a>
           <nav className="nav-links">
@@ -189,9 +192,9 @@ export default function HyperionDevStudio() {
                 ))}
               </ul>
               <div className="btn-row">
-                <Button className="rounded-xl">Join the waitlist</Button>
+                <Button className="rounded-xl" onClick={() => setShowBeta(true)}>Join the Beta</Button>
                 <Button variant="secondary" href="#contact" className="rounded-xl">Partner with us</Button>
-                <Badge variant="secondary">iOS • Android • Tablet</Badge>
+                <Badge variant="secondary">Android • Tablet</Badge>
               </div>
             </div>
             <div className="center">
@@ -202,6 +205,31 @@ export default function HyperionDevStudio() {
       </section>
 
       {/* Contact */}
+      <section className="section">
+        <div className="container grid-2 v-center gap-lg">
+          <div>
+            <Badge>Under development</Badge>
+            <h2 className="h2 mt">Citoyenneté France — Quiz & Test</h2>
+            <p className="muted-p">Préparez l'épreuve de citoyenneté française avec des quiz modernes, des explications claires et des séries thématiques.</p>
+            <ul className="checklist">
+              {[
+                "Entraînements chronométrés et mode révision",
+                "Statistiques de progression et séries ciblées",
+                "Interface claire et accessible",
+              ].map((li, i) => (
+                <li key={i}>• {li}</li>
+              ))}
+            </ul>
+            <div className="btn-row">
+              <Badge variant="secondary">Android • Tablet</Badge>
+            </div>
+          </div>
+          <div className="center">
+            <div className="placeholder-shot">Preview coming soon</div>
+          </div>
+        </div>
+      </section>
+
       <section id="contact" className="section">
         <div className="container fullwidth">
           <div className="grid-2 gap-lg">
@@ -257,6 +285,20 @@ export default function HyperionDevStudio() {
           </div>
         </div>
       </footer>
+
+      {showBeta && (
+        <div className="modal-overlay" role="dialog" aria-modal="true" onClick={() => setShowBeta(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="modal-title">Join the Beta</h3>
+            <p className="modal-sub">Choose where you want to join:</p>
+            <div className="modal-actions">
+              <a className="btn btn-lg" href="https://groups.google.com/g/hyperion-logiquiz-beta" target="_blank" rel="noreferrer">Google Groups</a>
+              <a className="btn btn-secondary btn-lg" href="https://play.google.com/store/apps/details?id=com.hyperion.logiquiz" target="_blank" rel="noreferrer">Google Play</a>
+            </div>
+            <button className="modal-close" onClick={() => setShowBeta(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -266,48 +308,60 @@ export default function HyperionDevStudio() {
 // ----------------------------
 function StyleTag() {
   const css = `
-/* ====== Design tokens ====== */
+/* ====== Tokens ====== */
 :root{
-  --main:#3080E5; 
-  --main-2:#1e5fb4; 
-  --text:#0f172a; 
+  --main:#3080E5;
+  --main-2:#1e5fb4;
+  --text:#0f172a;
   --muted:#475569;
-  --bg:#f6f9ff;             /* base page color (no more white band) */
+  --bg-edge:#E7EEF9;                 /* solid edge color to kill right strip */
   --glass: rgba(255,255,255,0.6);
   --border-soft: rgba(0,0,0,.06);
   --shadow: 0 10px 30px rgba(0,0,0,0.12);
-  --gutter: clamp(16px, 5vw, 56px);  /* responsive side padding */
   --radius: 16px;
+  --gutter: clamp(16px, 5vw, 56px);  /* responsive side padding */
+  --sectionY: clamp(72px, 12vh, 128px);
 }
 
-/* ====== Resets & page ====== */
+/* ====== Base & overflow fixes ====== */
 *{ box-sizing:border-box }
-html, body, #root{ height:100% }
-html, body{ overflow-x:hidden; }          /* prevent horizontal scroll that caused white strip */
+html, body, #root, .site{ width:100% }
+html, body, .site{ overflow-x: clip }     /* prevent 1–2px horizontal spill */
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-  background: var(--bg);                  /* solid base so gradients don’t show white through */
+  background-color: var(--bg-edge);       /* matches gradient tail */
   color: var(--text);
 }
 .site{
   min-height:100%;
-  background:
-    radial-gradient(60% 60% at 70% 10%, rgba(48,128,229,0.14), transparent),
-    radial-gradient(40% 40% at 0% 90%, rgba(48,128,229,0.10), transparent);
+  background-color: var(--bg-edge);
+  /* Gradients fade into the SAME solid color, not transparent */
+  background-image:
+    radial-gradient(60% 60% at 70% 10%, rgba(48,128,229,0.16) 0%, var(--bg-edge) 75%),
+    radial-gradient(40% 40% at 0% 90%,  rgba(48,128,229,0.12) 0%, var(--bg-edge) 80%);
+  background-repeat:no-repeat;
+  background-size: cover;
+  /* Chrome zoom-edge safety */
+  border-right: 0.01px solid transparent;
 }
 
-/* ====== Full-width layout with consistent gutters ====== */
+/* ====== Full-width sections, centered content with gutters ====== */
 .container,
 .nav-inner,
 .footer-inner{
-  width: min(1400px, 100%);
+  width: 100%;
+  max-width: 1400px;                  /* cap content, not the section bg */
   padding-inline: var(--gutter);
-  margin-inline: auto;                    /* centers content while sections span full width */
+  margin-inline: auto;
 }
-
-/* Sections go edge-to-edge but keep gutters via containers */
-.section{ padding: 4rem 0; }
+.section{
+  padding-block: var(--sectionY);
+  position: relative;
+}
+.section + .section{
+  border-top: 1px solid rgba(0,0,0,.04); /* visual separation */
+}
 
 /* ====== Navbar ====== */
 .nav{
@@ -315,10 +369,9 @@ body{
   background: rgba(255,255,255,0.3); backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0,0,0,.08);
 }
-.nav-inner{ height:64px; display:flex; align-items:center; justify-content:space-between; }
+.nav-inner{ height:64px; display:flex; align-items:center; justify-content:space-between }
 .brand{ display:flex; align-items:center; gap:.5rem; text-decoration:none; color:inherit }
-.brand-icon{ display:flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:14px;
-  background: linear-gradient(135deg, var(--main), var(--main-2)); color:#fff; box-shadow: var(--shadow); }
+.brand-logo{ width:36px; height:36px; border-radius:14px; object-fit:cover; box-shadow: var(--shadow); background:#fff }
 .brand-text{ font-weight:700; letter-spacing:.2px }
 .muted{ color:#64748b }
 .nav-links{ display:none; gap:1.25rem }
@@ -328,20 +381,25 @@ body{
 @media (min-width:768px){ .nav-links{ display:flex } }
 
 /* ====== Buttons & badges ====== */
-.btn{ border:none; border-radius:12px; padding:.6rem 1rem; font-weight:600; cursor:pointer; text-decoration:none;
-  display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--main),var(--main-2)); color:#fff; box-shadow: var(--shadow); }
+.btn{
+  border:none; border-radius:12px; padding:.6rem 1rem; font-weight:600; cursor:pointer; text-decoration:none;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,var(--main),var(--main-2)); color:#fff; box-shadow: var(--shadow);
+}
 .btn-secondary{ background:#fff; color:#111; border:1px solid var(--border-soft) }
 .btn-sm{ padding:.4rem .7rem; font-size:.85rem }
 .btn-lg{ padding:.8rem 1.2rem; font-size:1rem }
 .icon-gap{ display:inline-flex; align-items:center; gap:.5rem }
-.badge{ display:inline-flex; align-items:center; padding:.35rem .7rem; border-radius:999px; font-size:.8rem; font-weight:700;
-  background: linear-gradient(90deg, var(--main), var(--main-2)); color:#fff; }
+.badge{
+  display:inline-flex; align-items:center; padding:.35rem .7rem; border-radius:999px; font-size:.8rem; font-weight:700;
+  background: linear-gradient(90deg, var(--main), var(--main-2)); color:#fff;
+}
 .badge-secondary{ background:rgba(255,255,255,.85); color:#111; border:1px solid var(--border-soft) }
 
 /* ====== Typography ====== */
 .h1{ font-size: clamp(2.2rem, 4vw, 3.5rem); line-height:1.1; margin:.3rem 0 0 }
 .h2{ font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin:0 }
-.lead{ margin-top:1rem; max-width: 46ch; color:#334155 }
+.lead{ margin-top:1rem; max-width:46ch; color:#334155 }
 .muted-p{ margin-top:.5rem; max-width:60ch; color: var(--muted) }
 .grad-text{ background:linear-gradient(90deg,var(--main),var(--main-2)); -webkit-background-clip:text; background-clip:text; color:transparent }
 
@@ -353,10 +411,14 @@ body{
 .v-center{ align-items:center }
 .gap-lg{ gap:2.5rem }
 .center{ display:grid; place-items:center }
+.placeholder-shot{
+  width:100%; max-width:320px; height:560px; border-radius:24px; border:1px dashed rgba(0,0,0,.2);
+  display:grid; place-items:center; color:#64748b; background:rgba(255,255,255,.6);
+}
 
 /* ====== Cards & forms ====== */
 .card{ border:1px solid rgba(255,255,255,.3); background: var(--glass); backdrop-filter: blur(6px);
-  border-radius: var(--radius); box-shadow: var(--shadow); }
+  border-radius: var(--radius); box-shadow: var(--shadow) }
 .card-header{ padding:1.1rem 1.1rem 1rem }
 .card-title{ font-weight:700 }
 .card-description{ color: var(--muted); margin-top:.35rem }
@@ -365,11 +427,16 @@ body{
 .input,.textarea{ width:100%; border:1px solid var(--border-soft); background:#fff; border-radius:12px; padding:.7rem .9rem; font-size:.95rem }
 .textarea{ min-height:120px; resize:vertical }
 
-/* ====== Phone mock (unchanged, but safe from overflow) ====== */
-.phone-wrap{ max-width:320px; width:100%; aspect-ratio:9/19.5; border-radius:36px; border:1px solid rgba(255,255,255,.2);
-  padding:12px; background: linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.1)); box-shadow: 0 10px 30px rgba(0,0,0,.2); backdrop-filter: blur(8px); }
-.phone-body{ position:relative; height:100%; border-radius:28px; overflow:hidden;
-  background: linear-gradient(180deg, rgba(55,90,110,.85), rgba(55,90,110,.65)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
+/* ====== Phone mock ====== */
+.phone-wrap{
+  max-width:320px; width:100%; aspect-ratio:9/19.5; border-radius:36px; border:1px solid rgba(255,255,255,0.2);
+  padding:12px; background: linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.1));
+  box-shadow: 0 10px 30px rgba(0,0,0,.2); backdrop-filter: blur(8px);
+}
+.phone-body{
+  position:relative; height:100%; border-radius:28px; overflow:hidden;
+  background: linear-gradient(180deg, rgba(55,90,110,.85), rgba(55,90,110,.65)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
 .phone-notch{ width:96px; height:24px; border-radius:999px; background: rgba(255,255,255,.08); margin:12px auto 8px }
 .appbar{ height:44px; display:flex; align-items:center; justify-content:space-between; padding: 0 14px; color:#e8eef2 }
 .title{ font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:80% }
@@ -389,6 +456,14 @@ body{
   display:flex; align-items:center; justify-content:space-around; padding:6px 18px; color:#9fb7c4; border-top-left-radius:24px; border-top-right-radius:24px }
 .tab-item{ display:flex; flex-direction:column; align-items:center; gap:6px; font-size:12px; text-decoration:none; color:inherit; opacity:.7 }
 .tab-item.active{ opacity:1 }
+
+/* ====== Modal ====== */
+.modal-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.45); display:grid; place-items:center; z-index:100 }
+.modal{ background:#fff; border-radius:16px; box-shadow: var(--shadow); padding:24px; max-width:520px; width:min(92vw,520px) }
+.modal-title{ margin:0 0 6px; font-size:1.25rem; font-weight:700 }
+.modal-sub{ margin:0 0 16px; color:#475569 }
+.modal-actions{ display:flex; gap:.6rem; flex-wrap:wrap }
+.modal-close{ margin-top:14px; background:transparent; border:0; color:#0f172a; opacity:.7; cursor:pointer }
 
 /* ====== Footer ====== */
 .footer{ border-top:1px solid rgba(0,0,0,.08); padding:2rem 0 }
