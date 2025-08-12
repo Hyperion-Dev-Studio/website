@@ -180,17 +180,29 @@ export default function HyperionDevStudio() {
             <div>
               <Badge>Flagship App</Badge>
               <h2 className="h2 mt">Logiquiz — logic that plays beautifully</h2>
-              <p className="muted-p">Logiquiz trains pattern recognition, deduction, and creative reasoning through bite-sized challenges.</p>
+              <p className="muted-p">
+                LogiQuiz helps you prepare for your APICS CPIM and CSCP certifications with stimulating, exam-style quizzes.
+                Designed for supply chain professionals and students, LogiQuiz streamlines your learning through thematic
+                exercises and instant feedback.
+              </p>
               <ul className="checklist">
                 {[
-                  "Daily challenges and seasonal leagues",
-                  "Curated packs from educators and puzzle designers",
-                  "Accessible design with rich haptics and soundscapes",
-                  "Offline-first play with optional cloud sync",
+                  "Thematic exercises: CPIM Parts 1 & 2, CSCP Modules 1–3",
+                  "Instant feedback and detailed explanations",
+                  "Track your scores and quiz history",
+                  "Works offline — no internet connection required",
+                  "Distraction-free interface",
                 ].map((li, i) => (
                   <li key={i}>• {li}</li>
                 ))}
               </ul>
+              <p className="muted-p">
+                Whether you’re preparing for your first certification or refreshing your knowledge, LogiQuiz makes supply chain
+                exam prep simple and effective.
+              </p>
+              <p className="muted-p">
+                Download it now and master APICS exam content — anytime, anywhere.
+              </p>
               <div className="btn-row">
                 <Button className="rounded-xl" onClick={() => setShowBeta(true)}>Join the Beta</Button>
                 <Button variant="secondary" href="#contact" className="rounded-xl">Partner with us</Button>
